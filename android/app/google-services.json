@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "270890047126",
+    "project_id": "treasure-14c23",
+    "storage_bucket": "treasure-14c23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270890047126:android:66a444e673d140e68394b7",
+        "android_client_info": {
+          "package_name": "com.example.treasure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270890047126-878qnrte1pitns09s8f5l2g6k316kmpd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC44NKWRfQLzdF5tGoRB-vyrUhRmiv0C7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270890047126-878qnrte1pitns09s8f5l2g6k316kmpd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
