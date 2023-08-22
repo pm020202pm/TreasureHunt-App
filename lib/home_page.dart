@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:treasure/tabs/disqualified_tab.dart';
 import 'package:treasure/tabs/home_tab.dart';
 import 'package:treasure/tabs/profile_tab.dart';
-import 'package:treasure/team_list_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});

@@ -12,56 +12,45 @@ class UserCard extends StatefulWidget {
 }
 
 class _UserCardState extends State<UserCard> {
+  bool isDisqualify = true;
 
   Future<void> updateLevel() async {
-    await FirebaseFirestore.instance.collection(list[index+1]).add({
-      'name': widget.name,
-    }).then((value) => print("level updated")).catchError((error) => print("Failed to update level: $error"));
+    await FirebaseFirestore.instance.collection(list[index+1]).add({'name': widget.name,});
+    await FirebaseFirestore.instance.collection(list[index]).doc(widget.deleteId).delete();
+    // Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));
-    FirebaseFirestore.instance.collection(list[index]).doc(widget.deleteId).delete().then((value) {
-      print('CARD DELETED SUCCESSFULLY');
-    }).catchError((error) {
-      print('FAILED TO DELETE CARD: $error');
-    });
   }
-  void acceptDialog() {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        alignment: Alignment.center,
-        content: SizedBox(
-          height: 100,
-          child: Column(
-            children: [
-              const Text('Warning', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
-              const SizedBox(height: 30,),
-              Text('Are sure to disqualify ${widget.name.toUpperCase()} ?'),
-              const Text('It is not reversible', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),),
-            ],
-          ),
-        ),
-        actions: [
-          Button(buttonText: 'Cancel', textColor: Colors.grey[900], buttonBgColor: Colors.grey[200], onPressed: () { Navigator.pop(context); }, height: 35, width: 90, borderRadius: 15,),
-          Button(buttonText: 'Disqualify', textColor: Colors.red[800], buttonBgColor: Colors.red[100], onPressed: () { disqualify(); }, height: 35, width: 90, borderRadius: 15,),
-        ],
-      );
-    },
-  );
-}
 
+  void warningDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          alignment: Alignment.center,
+          content: SizedBox(
+            height: 90,
+            child: Column(
+              children: [
+                const Text('Warning', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
+                const SizedBox(height: 30,),
+                Text( (isDisqualify)? 'Are sure to disqualify ${widget.name.toUpperCase()} ?' : 'Are sure to send ${widget.name.toUpperCase()} to ${list[index+1].toUpperCase()} ?' , style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15, color: Colors.grey[600]),),
+              ],
+            ),
+          ),
+          actions: [
+            Button(buttonText: 'NO', textColor: Colors.grey[900], buttonBgColor: Colors.grey[200], onPressed: () { Navigator.pop(context); }, height: 35, width: 90, borderRadius: 15,),
+            Button(buttonText: 'YES', textColor: Colors.green[800], buttonBgColor: Colors.green[100], onPressed: () { (isDisqualify)? disqualify() : updateLevel(); }, height: 35, width: 90, borderRadius: 15,),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> disqualify() async {
-    await FirebaseFirestore.instance.collection('disqualify').add({
-      'name': widget.name,
-    }).then((value) => print("disqualified")).catchError((error) => print("Failed to disqualify: $error"));
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));
-
-    FirebaseFirestore.instance.collection(list[index]).doc(widget.deleteId).delete().then((value) {
-      print('CARD DELETED SUCCESSFULLY');
-    }).catchError((error) {
-      print('FAILED TO DELETE CARD: $error');
-    });
+    await FirebaseFirestore.instance.collection('disqualify').add({'name': widget.name,});
+    await FirebaseFirestore.instance.collection(list[index]).doc(widget.deleteId).delete();
+    Navigator.pop(context);
+    // Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));
   }
 
   @override
@@ -95,9 +84,9 @@ class _UserCardState extends State<UserCard> {
                     Text(widget.name.toUpperCase(), style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.grey[700]),),
                     Row(
                       children: [
-                        if(userName ==value || userName==cordi)Button(buttonText: '  Send to\nnext venue', textColor: Colors.green[700], buttonBgColor: Colors.green[100], onPressed: () {updateLevel();  }, height: 38, width: 100, borderRadius: 15,),
+                        if(userName ==value || userName==cordi)Button(buttonText: '  Send to\nnext venue', textColor: Colors.green[700], buttonBgColor: Colors.green[100], onPressed: () { setState(() { isDisqualify = false;}); warningDialog(); }, height: 38, width: 100, borderRadius: 15,),
                         const SizedBox(width: 10,),
-                        if(userName==cordi)Button(buttonText: 'Disqualify', textColor: Colors.red[700], buttonBgColor: Colors.red[100], onPressed: () { acceptDialog();}, height: 38, width: 74, borderRadius: 15,),
+                        if(userName==cordi)Button(buttonText: 'Disqualify', textColor: Colors.red[700], buttonBgColor: Colors.red[100], onPressed: () { setState(() {isDisqualify = true;});warningDialog();}, height: 38, width: 74, borderRadius: 15,),
                       ],
                     ),
 

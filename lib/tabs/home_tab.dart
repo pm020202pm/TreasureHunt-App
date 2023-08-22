@@ -17,17 +17,15 @@ class _HomeTabState extends State<HomeTab> {
   var name = '';
 
   Future<void> addTeam() async {
-    await FirebaseFirestore.instance.collection('teams').add({
-      'name': teamName.text.toLowerCase(),
-    }).then((value) => print("team added successfully")).catchError((error) => print("Failed to add team: $error"));
-    teamName.clear();
+    if(teamName.text!='') {
+      await FirebaseFirestore.instance.collection('teams').add({
+        'name': teamName.text.toLowerCase(),
+      }).then((value) => print("team added successfully")).catchError((error) =>
+          print("Failed to add team: $error"));
+      teamName.clear();
+    }
   }
 
-  Future<List<QueryDocumentSnapshot>> fetchRequestsDocuments() async {
-    final querySnapshot = await FirebaseFirestore.instance.collection(value).get();
-    List<QueryDocumentSnapshot> documents = querySnapshot.docs;
-    return documents;
-  }
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;

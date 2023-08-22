@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/button.dart';
 
 class DisqualifyTab extends StatefulWidget {
   const DisqualifyTab({Key? key}) : super(key: key);
-
   @override
   State<DisqualifyTab> createState() => _DisqualifyTabState();
 }
@@ -26,7 +24,7 @@ class _DisqualifyTabState extends State<DisqualifyTab> {
         future: fetchRequestsDocuments(),
         builder: (BuildContext context,
             AsyncSnapshot<List<QueryDocumentSnapshot>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) { return const Text("Loading..."); }
+          if (snapshot.connectionState == ConnectionState.waiting) { return const Center(child: CircularProgressIndicator()); }
           if (snapshot.hasError) {return Text('Error: ${snapshot.error}');}
           List<QueryDocumentSnapshot> documents = snapshot.data!;
           return ListView.builder(
