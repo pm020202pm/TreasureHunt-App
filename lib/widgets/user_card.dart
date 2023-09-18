@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import '../home_page.dart';
 import 'button.dart';
 class UserCard extends StatefulWidget {
   UserCard({Key? key, required this.name, required this.deleteId}) : super(key: key);
@@ -13,13 +12,6 @@ class UserCard extends StatefulWidget {
 
 class _UserCardState extends State<UserCard> {
   bool isDisqualify = true;
-
-  Future<void> updateLevel() async {
-    await FirebaseFirestore.instance.collection(list[index+1]).add({'name': widget.name,});
-    await FirebaseFirestore.instance.collection(list[index]).doc(widget.deleteId).delete();
-    // Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));
-  }
 
   void warningDialog() {
     showDialog(
@@ -39,18 +31,22 @@ class _UserCardState extends State<UserCard> {
           ),
           actions: [
             Button(buttonText: 'NO', textColor: Colors.grey[900], buttonBgColor: Colors.grey[200], onPressed: () { Navigator.pop(context); }, height: 35, width: 90, borderRadius: 15,),
-            Button(buttonText: 'YES', textColor: Colors.green[800], buttonBgColor: Colors.green[100], onPressed: () { (isDisqualify)? disqualify() : updateLevel(); }, height: 35, width: 90, borderRadius: 15,),
+            Button(
+              buttonText: 'YES',
+              textColor: Colors.green[800],
+              buttonBgColor: Colors.green[100],
+              onPressed: () async {
+                await FirebaseFirestore.instance.collection((isDisqualify)? 'disqualify' : list[index+1]).add({'name': widget.name,});
+                await FirebaseFirestore.instance.collection(list[index]).doc(widget.deleteId).delete();
+                // (isDisqualify)? disqualify() : updateLevel();
+                Navigator.pop(context);
+                },
+              height: 35, width: 90, borderRadius: 15,
+            ),
           ],
         );
       },
     );
-  }
-
-  Future<void> disqualify() async {
-    await FirebaseFirestore.instance.collection('disqualify').add({'name': widget.name,});
-    await FirebaseFirestore.instance.collection(list[index]).doc(widget.deleteId).delete();
-    Navigator.pop(context);
-    // Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));
   }
 
   @override
