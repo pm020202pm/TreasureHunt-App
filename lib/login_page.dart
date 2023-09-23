@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:treasure/widgets/button.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:treasure/widgets/text_button.dart';
 import 'constants.dart';
 import 'widgets/custom_textfield.dart';
 import 'home_page.dart';
@@ -27,16 +28,16 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         setState(() {
           userUid=user.uid;
-          int length = user.email!.length-10;
+          int length = user.email!.length-8;
           userName = user.email!.substring(0, length);
         });
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));
+        Fluttertoast.showToast(msg: 'Logged in as ${userName.toUpperCase()}', textColor: Colors.white).then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const MyHomePage())));
       }
       emailController.clear();
       passwordController.clear();
     }
     catch (e) {
-      print('WRONG EMAIL OR PASSWORD');
+      Fluttertoast.showToast(msg: 'wrong email or password', textColor: Colors.red);
     }
   }
 

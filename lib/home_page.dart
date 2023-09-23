@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:treasure/tabs/disqualified_tab.dart';
 import 'package:treasure/tabs/home_tab.dart';
+import 'package:treasure/tabs/log_tab.dart';
 import 'package:treasure/tabs/profile_tab.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -14,9 +15,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int index = 0;
 
   final screens = [
-    HomeTab(),
-    DisqualifyTab(),
-    ProfileTab(),
+    const HomeTab(),
+    const DisqualifyTab(),
+    const LogTab(),
+    const ProfileTab(),
   ];
 
   @override
@@ -42,11 +44,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(Icons.people_alt_outlined), label: 'Disqualified'),
             NavigationDestination(
                 selectedIcon: Icon(Icons.account_circle),
+                icon: Icon(Icons.history), label: 'History'),
+            NavigationDestination(
+                selectedIcon: Icon(Icons.account_circle),
                 icon: Icon(Icons.account_circle_outlined), label: 'Profile'),
+
           ],
         ),
       ),
-      body: screens[index],
+      body: SafeArea(child: screens[index]),
     );
   }
 }

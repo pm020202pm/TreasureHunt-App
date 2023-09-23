@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import '../widgets/button.dart';
+import '../login_page.dart';
+import '../widgets/text_button.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({Key? key}) : super(key: key);
@@ -15,9 +16,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
   void logout() async {
     try {
-      await FirebaseAuth.instance.signOut();
-      print('Logged out');
-      Navigator.pushReplacementNamed(context, '/loginpage');
+      await FirebaseAuth.instance.signOut().then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage())));
     } catch (e) {
       print('Error during logout: $e');
     }
@@ -27,7 +26,7 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 40, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
       child: SingleChildScrollView(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -49,12 +48,9 @@ class _ProfileTabState extends State<ProfileTab> {
           ),
           const SizedBox(height: 20,),
           Button(
-            buttonText: 'Logout',
-            textColor: Colors.grey[100],
+            buttonText: 'Logout', textColor: Colors.grey[100],
             buttonBgColor: Colors.grey[400],
-            onPressed: () {
-              logout();
-            },
+            onPressed: () {logout();},
             height: 50,
             width: screenSize.width * 0.9,
             borderRadius: 15,

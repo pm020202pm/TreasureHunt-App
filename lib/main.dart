@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:treasure/home_page.dart';
 import 'constants.dart';
 import 'login_page.dart';
@@ -26,11 +27,10 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           isLogin= true;
           userUid=user.uid;
-          int length = user.email!.length-10;
+          int length = user.email!.length-8;
           userName = user.email!.substring(0, length);
         });
-        print('USER UID IS : $userUid');
-        print('USER NAME IS : $userName');
+        Fluttertoast.showToast(msg: 'Logged in as ${userName.toUpperCase()}', textColor: Colors.white);
       }
     });
   }

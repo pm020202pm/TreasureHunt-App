@@ -12,7 +12,6 @@ class _MyDropdownState extends State<MyDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return DropdownButton<String>(
       borderRadius: BorderRadius.circular(20),
       iconSize: 0,
@@ -23,7 +22,6 @@ class _MyDropdownState extends State<MyDropdown> {
           index = list.indexWhere((val) => val == newValue);
         });
         Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));
-        print('$value $index');
       },
       items: list.map((String value) {
         return DropdownMenuItem<String>(
