@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:treasure/home_page.dart';
+import 'package:treasure/provider/count.dart';
 import 'constants.dart';
 import 'login_page.dart';
 
@@ -41,13 +43,18 @@ class _MyAppState extends State<MyApp> {
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes:{
-        '/homepage' : (context) => const MyHomePage(),
-        '/loginpage' : (context) => LoginPage(),
-      },
-      title: 'Treasure Hunt',
-      home: isLogin? MyHomePage() : LoginPage() ,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Value() ),
+      ],
+      child: MaterialApp(
+        // routes:{
+        //   '/homepage' : (context) => const MyHomePage(),
+        //   '/loginpage' : (context) => LoginPage(),
+        // },
+        title: 'Treasure Hunt',
+        home: isLogin? MyHomePage() : LoginPage() ,
+      ),
     );
   }
 }

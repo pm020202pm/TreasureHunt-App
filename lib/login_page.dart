@@ -31,13 +31,14 @@ class _LoginPageState extends State<LoginPage> {
           int length = user.email!.length-8;
           userName = user.email!.substring(0, length);
         });
-        Fluttertoast.showToast(msg: 'Logged in as ${userName.toUpperCase()}', textColor: Colors.white).then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const MyHomePage())));
+        Fluttertoast.showToast(msg: 'Logged in as ${userName.toUpperCase()}')
+            .then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const MyHomePage())));
       }
       emailController.clear();
       passwordController.clear();
     }
     catch (e) {
-      Fluttertoast.showToast(msg: 'wrong email or password', textColor: Colors.red);
+      Fluttertoast.showToast(msg: 'wrong email or password');
     }
   }
 

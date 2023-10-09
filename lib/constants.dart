@@ -1,14 +1,34 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+late String userUid;
+late String userName;
+FirebaseFirestore firestore = FirebaseFirestore.instance;
 String value = 'teams';
 String cordi= 'master';
 int index=0;
-late String userUid;
-late String userName;
+String cnt = "";
 
 Future<String> getDocumentCount(String collection) async {
-  QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(collection).get();
+  QuerySnapshot snapshot = await firestore.collection(collection).get();
+  cnt = snapshot.size.toString();
+  print("counting = $cnt");
   return snapshot.size.toString();
+}
+
+Future<void> add(String collection, Map<String, dynamic> data) async {
+  await firestore.collection(collection).add(data);
+}
+
+Future<void> delete(String deleteId) async {
+  await firestore.collection(list[index]).doc(deleteId).delete();
+}
+
+Future<void> addTeam() async {
+  for(String item in teams){
+    await add('teams', {'name': item.toUpperCase()})
+    // await firestore.collection('teams').add({'name': item.toLowerCase()})
+        .then((value) => print("$item added successfully"));
+  }
 }
 List<String> list = ['teams', 'venue1', 'venue2.1', 'venue2.2', 'venue3', 'venue4', 'venue5.1', 'venue5.2', 'venue6', 'venue7.1', 'venue7.2', 'venue8'];
 List<String> teams = [

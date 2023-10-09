@@ -11,6 +11,7 @@ class DisqualifyTab extends StatefulWidget {
 
 class _DisqualifyTabState extends State<DisqualifyTab> {
   String count="";
+
   Future<void> number() async {
     String num = await getDocumentCount('disqualify');
     setState(() {

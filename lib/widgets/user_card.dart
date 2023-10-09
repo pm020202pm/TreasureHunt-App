@@ -1,5 +1,4 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -17,22 +16,23 @@ class _UserCardState extends State<UserCard> {
   String formattedTime = DateFormat.jm().format(DateTime.now());
   late String name = widget.name.toUpperCase();
 
-  Future<void> addLog(String name) async {
-    await FirebaseFirestore.instance.collection('log').add({'name':  name, 'time': formattedTime,});
-  }
-  Future<void> add(String collection) async {
-    await FirebaseFirestore.instance.collection(collection).add({'name': name});
-  }
-  Future<void> delete() async {
-    await FirebaseFirestore.instance.collection(list[index]).doc(widget.deleteId).delete();
-  }
+  // Future<void> addLog(String name) async {
+  //   await firestore.collection('log').add({'name':  name, 'time': formattedTime,});
+  // }
+  // Future<void> add(String collection) async {
+  //   await firestore.collection(collection).add({'name': name});
+  // }
+  // Future<void> delete() async {
+  //   await firestore.collection(list[index]).doc(widget.deleteId).delete();
+  // }
 
   Future<void> addAndDelete(String collection, String msg) async {
     Navigator.pop(context);
-    await add(collection)
-        .then((value) async => await addLog(msg))
+    await add(collection, {'name': name})
+        // .then((value) async => await addLog(msg))
+        .then((value) async => await add('log', {'name':  msg, 'time': formattedTime}))
         .then((value) => Fluttertoast.showToast(msg: msg))
-        .then((value) async => await delete());
+        .then((value) async => await delete(widget.deleteId));
   }
 
   @override
